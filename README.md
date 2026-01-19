@@ -1,4 +1,4 @@
-#### Please visit the [wiki](https://github.com/muhamed-hassan/web-frontend-poc-in-js/wiki) for more info
+#### Please visit the [wiki](https://github.com/muhamed-hassan/crud-in-web-frontend/wiki) for more info
 
 ***
 
