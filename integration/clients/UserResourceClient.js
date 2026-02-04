@@ -1,106 +1,97 @@
 
 class UserResourceClient extends HttpClient {
 
-    constructor() {
-        super("http://localhost:8080/");
+    create(userInfoCreateModel) {  
+
+        var requestUrl = "users";
+        var requestHeaders = new Map();
+        requestHeaders.set("Content-type", "application/json");
+        var requestPayload = JSON.stringify(userInfoCreateModel);
+        this.doPost(requestUrl, requestHeaders, requestPayload);
     }
 
-    createBankAccount(userInfoCreateModel) {  
+    getBriefViewForUpdateByNationalId(nationalId) {
 
-        try { 
+        var requestUrl = "users/brief-view-for-update/" + nationalId;
+        var requestHeaders = new Map();
+        requestHeaders.set("Accept", "application/json");
+        var response = this.doGet(requestUrl, requestHeaders);        
+        var parsedResponse = JSON.parse(response);
 
-            var requestUrl = "v1/users";
-            var requestHeaders = new Map();
-            requestHeaders.set("Content-type", "application/json");
-            var requestPayload = JSON.stringify(userInfoCreateModel);
-            this.doPost(requestUrl, requestHeaders, requestPayload);
-
-        } catch (error) {
-            var errMsg = "Encountered an error during communicating with the backend. SOURCE::UserResourceClient.createBankAccount()";
-            console.error(errMsg);
-            console.error(error + "\n\n");
-        }
+        var userInfoReadModelForUpdate = new UserInfoReadModelForUpdate(); 
+        userInfoReadModelForUpdate.id = parsedResponse.id;
+        userInfoReadModelForUpdate.cellPhone = parsedResponse.cellPhone;
+        userInfoReadModelForUpdate.email = parsedResponse.email;
+        userInfoReadModelForUpdate.mailingAddress = parsedResponse.mailingAddress;
+        
+        return userInfoReadModelForUpdate;
     }
 
-    getDetailedBankAccount(nationalId) {
+    getDetailedViewByNationalId(nationalId) {
 
-        var userInfoReadModel;    
-        try { 
+        var requestUrl = "users/detailed-view/" + nationalId;
+        var requestHeaders = new Map();
+        requestHeaders.set("Accept", "application/json");
+        var response = this.doGet(requestUrl, requestHeaders);        
+        var parsedResponse = JSON.parse(response);
 
-            var requestUrl = "v1/users/" + nationalId;
-            var requestHeaders = new Map();
-            requestHeaders.set("Accept", "application/json");
-            var response = this.doGet(requestUrl, requestHeaders);        
-            var parsedResponse = JSON.parse(response);
-            userInfoReadModel = new DetailedUserInfoReadModel(
-                parsedResponse.name, parsedResponse.dateOfBirth, parsedResponse.iban, parsedResponse.balance, 
-                parsedResponse.currency, parsedResponse.nationalId, parsedResponse.cellPhone, 
-                parsedResponse.email, parsedResponse.mailingAddress); 
+        var detailedUserInfoReadModel = new DetailedUserInfoReadModel(); 
+        detailedUserInfoReadModel.id = parsedResponse.id;
+        detailedUserInfoReadModel.name = parsedResponse.name;
+        detailedUserInfoReadModel.nationalId = parsedResponse.nationalId;
+        detailedUserInfoReadModel.dateOfBirth = parsedResponse.dateOfBirth;
+        detailedUserInfoReadModel.cellPhone = parsedResponse.cellPhone;
+        detailedUserInfoReadModel.email = parsedResponse.email;
+        detailedUserInfoReadModel.mailingAddress = parsedResponse.mailingAddress;
+        detailedUserInfoReadModel.iban = parsedResponse.iban;
+        detailedUserInfoReadModel.balance = parsedResponse.balance;
 
-        } catch (error) {
-            var errMsg = "Encountered an error during communicating with the backend. SOURCE::UserResourceClient.getDetailedBankAccount()";
-            console.error(errMsg);
-            console.error(error + "\n\n");
-        }
-
-        return userInfoReadModel;
+        return detailedUserInfoReadModel;
     }
 
-    updateBankAccount(userInfoUpdateModel) {
+    getPage(requestedPageIndex) { 
 
-        try {   
-            
-            var requestUrl = "v1/users";
-            var requestHeaders = new Map();
-            requestHeaders.set("Content-type", "application/json");
-            var requestPayload = JSON.stringify(userInfoUpdateModel);
-            this.doPut(requestUrl, requestHeaders, requestPayload);
+        var requestUrl = "users?pageIndex=" + requestedPageIndex;
+        var requestHeaders = new Map();
+        requestHeaders.set("Accept", "application/json");
+        
+        var response = this.doGet(requestUrl, requestHeaders);        
+        var parsedResponse = JSON.parse(response);
+        var data = parsedResponse.data;
+        var firstPage = parsedResponse.firstPage;
+        var lastPage = parsedResponse.lastPage;        
 
-        } catch (error) {
-            var errMsg = "Encountered an error during communicating with the backend. SOURCE::UserResourceClient.updateBankAccount()";
-            console.error(errMsg);
-            console.error(error + "\n\n");  
+        var collectedElements = new Array();
+        for (var cursor = 0; cursor < data.length; cursor++) {
+            var briefUserInfoReadModel = new BriefUserInfoReadModel();
+            briefUserInfoReadModel.name = data[cursor].name;
+            briefUserInfoReadModel.nationalId = data[cursor].nationalId;
+            briefUserInfoReadModel.iban = data[cursor].iban;
+            briefUserInfoReadModel.balance = data[cursor].balance;
+            collectedElements.push(briefUserInfoReadModel);            
         }
+
+        var pageOfUserInfo = new PageOfUserInfo();
+        pageOfUserInfo.data = collectedElements;
+        pageOfUserInfo.firstPage = firstPage;
+        pageOfUserInfo.lastPage = lastPage;
+
+        return pageOfUserInfo;
     }
 
-    removeBankAccount(nationalId) {
+    update(id, userInfoUpdateModel) {
 
-        try {     
-
-            var requestUrl = "v1/users/" + nationalId;
-            this.doDelete(requestUrl);
-
-        } catch (error) {
-            var errMsg = "Encountered an error during communicating with the backend. SOURCE::UserResourceClient.removeBankAccount()";
-            console.error(errMsg);
-            console.error(error + "\n\n");    
-        }
+        var requestUrl = "users/" + id;
+        var requestHeaders = new Map();
+        requestHeaders.set("Content-type", "application/json");
+        var requestPayload = JSON.stringify(userInfoUpdateModel);
+        this.doPut(requestUrl, requestHeaders, requestPayload);
     }
 
-    getBriefBankAccountsInPages(requestedPageIndex) {
+    remove(id) {
 
-        var collectedElements;
-        try {       
-
-            var requestUrl = "v1/users?pageIndex=" + requestedPageIndex;
-            var requestHeaders = new Map();
-            requestHeaders.set("Accept", "application/json");
-            var response = this.doGet(requestUrl, requestHeaders);        
-            var parsedResponse = JSON.parse(response);
-            collectedElements = new Array();
-            for (var cursor = 0; cursor < parsedResponse.length; cursor++) {
-                var briefUserInfoReadModel = new BriefUserInfoReadModel(parsedResponse[cursor].name, parsedResponse[cursor].nationalId, 
-                    parsedResponse[cursor].iban, parsedResponse[cursor].balance);
-                collectedElements.push(briefUserInfoReadModel);            
-            }
-
-        } catch (error) {
-            var errMsg = "Encountered an error during communicating with the backend. SOURCE::UserResourceClient.getBriefBankAccountsInPages()";
-            console.error(errMsg);
-            console.error(error + "\n\n");    
-        }
-
-        return collectedElements;
+        var requestUrl = "users/" + id;
+        this.doDelete(requestUrl);
     }
 
 }

@@ -1,0 +1,22 @@
+.searching-in-bank-accounts-view {
+    height: 125px;
+    width: auto;
+}
+
+/* *********************************************************************************** */
+
+.searching-in-bank-accounts-view button {    
+    top: 75px;
+}
+
+.searching-in-bank-accounts-view #search-btn {   
+    left: 20px; 
+    background: #0069D9;  
+    border: 2px solid #0069D9;    
+}
+
+.searching-in-bank-accounts-view #reset-btn {    
+    left: 375px;
+    background: #C82333;   
+    border: 2px solid #C82333; 
+}

@@ -1,9 +1,9 @@
 
-class BankAccountDetailsPage extends BasePage {
+class BankAccountDetails {
 
-    getHtml(userInfoReadModel) {
+    getContent(userInfoReadModel) {
 
-        return "<table class=\"bank-account-details-view\">" +
+        return "<table class=\"tabular-layout bank-account-details-view\">" +
                     "<tr>" +
                         "<td class=\"bank-account-details-view-label\"> Name: </td>" +
                         "<td> " + userInfoReadModel.name + " </td>" +
@@ -36,17 +36,11 @@ class BankAccountDetailsPage extends BasePage {
                     "<tr>" +
                         "<td class=\"bank-account-details-view-label\"> IBAN: </td>" +
                         "<td> " + userInfoReadModel.iban + " </td>" +
-                        "<td colspan=\"3\"></td>" +
-                    "</tr>" +
-                    "<tr>" +
-                        "<td class=\"bank-account-details-view-label\"> Balance: </td>" +
-                        "<td> " + userInfoReadModel.balance + " </td>" +
                         "<td style=\"width: 100px;\"></td>" +
-                        "<td class=\"bank-account-details-view-label\"> Currency: </td>" +
-                        "<td> " + userInfoReadModel.currency + " </td>" +
+                        "<td class=\"bank-account-details-view-label\"> Balance: </td>" +
+                        "<td> " + userInfoReadModel.balance + " GBP</td>" +
                     "</tr>" +
-                "</table>" +
-                super.getBackToMainHtml();
+                "</table>";
     }
 
 }

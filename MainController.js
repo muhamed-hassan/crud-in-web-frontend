@@ -1,74 +1,84 @@
-
 function launcher() {
 
     var templateConstructor = new TemplateConstructor();
     templateConstructor.constructHeader();
     templateConstructor.constructContent();
-    templateConstructor.constructFooter();
+    templateConstructor.constructFooter(); 
+
+    displayFragment(HOME, home);
+
+    createPopupDialog();
 }
 
-// Main menu navigation
+// Navigation bar
 function navigateTo(element) {
 
+    clearNotificationArea();
+    
     var action = element.getAttribute("id");
-    var pageContent;
 
-    // start drawing the required pg with content segment
-    switch (action) {
-        case "openBankAccount":
-            document.title = "Open bank account";
-            var openingBankAccountPage = new OpeningBankAccountPage();
-            pageContent = openingBankAccountPage.getHtml();          
-            break;
-        case "viewBankAccount":
-            document.title = "Search in bank accounts";
-            var searchingInBankAccountsPage = new SearchingInBankAccountsPage();
-            pageContent = searchingInBankAccountsPage.getHtml();
-            var targetPage = "bankAccountDetails";
-            sessionStorage.setItem("targetPage", targetPage);
-            break;
-        case "updateBankAccount":
-            document.title = "Search in bank accounts";
-            var searchingInBankAccountsPage = new SearchingInBankAccountsPage();
-            pageContent = searchingInBankAccountsPage.getHtml();
-            var targetPage = "updateBankAccount";
-            sessionStorage.setItem("targetPage", targetPage);
-            break;
-        case "removeBankAccount":
-            document.title = "Search in bank accounts";
-            var searchingInBankAccountsPage = new SearchingInBankAccountsPage();
-            pageContent = searchingInBankAccountsPage.getHtml();
-            var targetPage = "removeBankAccount";
-            sessionStorage.setItem("targetPage", targetPage);
-            break;
-        case "viewBankAccountsInPages":
-            document.title = "Bank accounts";
-            // do the initial call to fetch data here                  
-            sessionStorage.removeItem("currentIndex");
-            var currentIndex = 0;
-            var userResourceClient = new UserResourceClient();
-            var bankAccounts = userResourceClient.getBriefBankAccountsInPages(currentIndex);
-            var viewingBankAccountsUsingPaginationPage = new ViewingBankAccountsUsingPaginationPage();
-            pageContent = viewingBankAccountsUsingPaginationPage.getHtml(bankAccounts);
-            sessionStorage.setItem("currentIndex", currentIndex);  
-            break;
-        case "backToMain":
-            document.title = "Home";
-            var mainPage = new MainPage();
-            pageContent = mainPage.getHtml();
-            break;
-        default:
-            throw new Error("Unknown action !!!");
+    try {
+    
+        switch (action) {
+
+            case "open-bank-account":
+                displayFragment(OPEN_BANK_ACCOUNT, openingBankAccount);
+                break;
+
+            case "view-bank-account":                
+                displayFragment(SEARCH_IN_BANK_ACCOUNTS, searchingInBankAccounts);
+                sessionStorage.setItem("targetPage", "bankAccountDetails");         
+                break;
+
+            case "update-bank-account":                
+                displayFragment(SEARCH_IN_BANK_ACCOUNTS, searchingInBankAccounts);
+                sessionStorage.setItem("targetPage", "updateBankAccount");
+                break;
+
+            case "remove-bank-account":                
+                displayFragment(SEARCH_IN_BANK_ACCOUNTS, searchingInBankAccounts);
+                sessionStorage.setItem("targetPage", "removeBankAccount");   
+                break;
+
+            case "view-bank-accounts-in-pages": // do the initial call to fetch data here                              
+                displayFragment(BANK_ACCOUNTS, viewingBankAccountsUsingPagination);
+                var currentIndex = 0;            
+                var page = userResourceClient.getPage(currentIndex);
+                var bankAccounts = page.data;
+                fillPaginatedData(bankAccounts);
+                if (page.firstPage) {
+                    disableButton("previous-btn");
+                }              
+                if (bankAccounts.length < PAGE_SIZE) {
+                    disableButton("next-btn");
+                }  
+                sessionStorage.setItem("currentIndex", currentIndex);  
+                break;
+
+            case "back-to-home":
+                displayFragment(HOME, home);                  
+                break;
+
+            default:
+                throw new Error("Unknown action !!!");
+        }
+
+    } catch (error) {
+        showNotification(error.message, WARNING);
     }
 
-    addContentToTemplate(pageContent);
 }
 
-function addContentToTemplate(pageContent) {
+/* *********************************************************************************** */
 
-    var root = document.getElementById("root");
-    var content = document.getElementById("content");
-    var footer = document.getElementById("footer");
-    content.innerHTML = pageContent;
-    root.insertBefore(content, footer);
+function displayFragment(pageTitle, fragmentType) {
+
+    document.title = pageTitle;    
+    document.getElementById("content-area").innerHTML = fragmentType.getContent();
+}
+
+function displayFragment(pageTitle, fragmentType, data) {
+
+    document.title = pageTitle;
+    document.getElementById("content-area").innerHTML = fragmentType.getContent(data);
 }

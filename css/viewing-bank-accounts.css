@@ -1,0 +1,65 @@
+.viewing-bank-accounts-container {
+    border: 2px dashed #0069D9; 
+    border-radius: 5px;  
+    padding: 5px;
+    height: 430px;
+}
+
+/* *********************************************************************************** */
+
+.viewing-bank-accounts-view {
+    height: auto;
+    width: 800px;
+}
+
+/* *********************************************************************************** */
+
+.viewing-bank-accounts-view th {
+    background: #0069D9;
+    color: white;
+    font-size: 16px;
+    padding: 16px;
+}
+
+.viewing-bank-accounts-view tbody tr:nth-child(even) {
+    background: #e5f0fb;
+}
+
+.viewing-bank-accounts-view tbody tr:hover {
+    background: #b2d2f3;
+}
+
+.viewing-bank-accounts-view tbody td {
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    padding: 8px;
+}
+
+/* *********************************************************************************** */
+
+#pagination-controls button {
+    background: #0069D9;  
+    border: 2px solid #0069D9;   
+    top: 395px;
+}
+
+#pagination-controls #previous-btn {    
+    left: 10px;    
+}
+
+#pagination-controls #next-btn {
+    left: 515px;
+}
+
+
+/* *********************************************************************************** */
+
+#bank-account-details {
+    position: absolute;
+    left: 900px;
+    top: 0px;
+    width: 600px;
+    font-size: 18px;
+    border-bottom: 2px solid #000;
+}

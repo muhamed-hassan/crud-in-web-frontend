@@ -8,37 +8,32 @@ class TemplateConstructor {
         var headerElement = document.getElementById("header");
 
         var header = new Header();
-        headerElement.innerHTML = header.getHtml();
+        headerElement.innerHTML = header.getContent();
     }
     
     constructContent() {
 
-        this.constructSegment("div", "content");
+        this.constructSegment("main", "main");
 
-        var contentElement = document.getElementById("content");
+        var main = document.getElementById("main");
 
-        contentElement.setAttribute("class", "content");
-
-        var mainPage = new MainPage();
-        contentElement.innerHTML = mainPage.getHtml();
+        var notificationArea = new NotificationArea();
+        var contentArea = new ContentArea();
+    
+        main.innerHTML = notificationArea.getContent() + contentArea.getContent();
     }
     
     constructFooter() {
 
         this.constructSegment("footer", "footer");
-
-        var footerElement = document.getElementById("footer");
-        
-        var footer = new Footer();
-        footerElement.innerHTML = footer.getHtml();
     }
 
     constructSegment(elementType, segmentId) {
 
-        var root = document.getElementById("root");
+        var body = document.getElementById("root");
         var element = document.createElement(elementType);
         element.setAttribute("id", segmentId);
-        root.appendChild(element);
+        body.appendChild(element);
     }
 
 }

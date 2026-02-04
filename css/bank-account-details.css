@@ -1,17 +1,16 @@
 .bank-account-details-view {
-    font-size: 20px;
-    position: relative;
-    left: 15px;
-    top: 25px;
-    margin-bottom: 150px;
-    height: 180px;
-    width: auto;
+    height: 240px;
+    width: 1000px;
     padding: 10px;
-    border: 1px solid black;
+}
+
+.bank-account-details-view td {
+    padding: 5px;
 }
 
 .bank-account-details-view-label {
     font-weight: bold;
+    width: 115px;
 }
 
 .bank-account-details-view-acc-details {

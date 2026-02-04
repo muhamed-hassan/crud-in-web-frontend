@@ -1,59 +1,71 @@
 
 class HttpClient {
-
-    constructor(providerBaseUrl) {
-        this.providerBaseUrl = providerBaseUrl;
-    }
     
     doGet(requestUrl, requestHeaders) {
         var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", this.providerBaseUrl + requestUrl, false);
+        xhttp.open("GET", serviceProviderBaseUrl + requestUrl, false);
         this.fillRequestHeaders(requestHeaders, xhttp);
         xhttp.send();
-    
-        if (xhttp.status != 200) {
-            throw new Error("ERROR with: " + this.constructHttpStatus(xhttp));
+
+        switch (xhttp.status) {
+            case 200:
+                return xhttp.response;
+            case 404:
+                throw new Error(JSON.parse(xhttp.response).error);
+            default:
+                throw new Error("Error of " + xhttp.statusText);
         }
     
-        return xhttp.responseText;
     }
     
     doPost(requestUrl, requestHeaders, requestPayload) {
         var xhttp = new XMLHttpRequest();
-        xhttp.open("POST", this.providerBaseUrl + requestUrl, false);
+        xhttp.open("POST", serviceProviderBaseUrl + requestUrl, false);
         this.fillRequestHeaders(requestHeaders, xhttp);
         xhttp.send(requestPayload);
-    
-        if (xhttp.status != 201) {
-            throw new Error("ERROR with: " + this.constructHttpStatus(xhttp));
-        }
 
-        return this.constructHttpStatus(xhttp);
+        switch (xhttp.status) {
+            case 201:
+                break;
+            case 400:
+                throw new Error(JSON.parse(xhttp.response).error);
+            default:
+                throw new Error("Error of " + xhttp.statusText);
+        }
+        
     }
     
     doDelete(requestUrl) {
         var xhttp = new XMLHttpRequest();
-        xhttp.open("DELETE", this.providerBaseUrl + requestUrl, false);
+        xhttp.open("DELETE", serviceProviderBaseUrl + requestUrl, false);
         xhttp.send();
-    
-        if (xhttp.status != 204) {
-            throw new Error("ERROR with: " + this.constructHttpStatus(xhttp));
+
+        switch (xhttp.status) {
+            case 204:
+                break;
+            case 404:
+                throw new Error(JSON.parse(xhttp.response).error);
+            default:
+                throw new Error("Error of " + xhttp.statusText);
         }
 
-        return this.constructHttpStatus(xhttp);
     }
     
     doPut(requestUrl, requestHeaders, requestPayload) {
         var xhttp = new XMLHttpRequest();
-        xhttp.open("PUT", this.providerBaseUrl + requestUrl, false);
+        xhttp.open("PUT", serviceProviderBaseUrl + requestUrl, false);
         this.fillRequestHeaders(requestHeaders, xhttp);
         xhttp.send(requestPayload);
-    
-        if (xhttp.status != 204) {
-            throw new Error("ERROR with: " + this.constructHttpStatus(xhttp));
+
+        switch (xhttp.status) {
+            case 204:
+                break;
+            case 400:
+                throw new Error(JSON.parse(xhttp.response).error);
+            default:
+                throw new Error("Error of " + xhttp.statusText);
         }
 
-        return this.constructHttpStatus(xhttp);
     }
     
     /* ****************************************************************************************************************** */
@@ -64,10 +76,6 @@ class HttpClient {
                 xhttp.setRequestHeader(entry[0], entry[1]);
             }
         }
-    }
-
-    constructHttpStatus(xhttp) {
-        return xhttp.status + " " + xhttp.statusText;
     }
 
 }
