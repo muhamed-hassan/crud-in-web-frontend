@@ -71,12 +71,12 @@ class UserResourceClient extends HttpClient {
             collectedElements.push(briefUserInfoReadModel);            
         }
 
-        var pageOfUserInfo = new PageOfUserInfo();
-        pageOfUserInfo.data = collectedElements;
-        pageOfUserInfo.firstPage = firstPage;
-        pageOfUserInfo.lastPage = lastPage;
+        var pageOfBankAccounts = new PageOfBankAccounts();
+        pageOfBankAccounts.data = collectedElements;
+        pageOfBankAccounts.firstPage = firstPage;
+        pageOfBankAccounts.lastPage = lastPage;
 
-        return pageOfUserInfo;
+        return pageOfBankAccounts;
     }
 
     update(id, userInfoUpdateModel) {

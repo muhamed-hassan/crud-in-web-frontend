@@ -1,5 +1,5 @@
 
-class PageOfUserInfo {
+class PageOfBankAccounts {
 
     data;
     firstPage;
