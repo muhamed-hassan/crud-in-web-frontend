@@ -15,12 +15,6 @@ function showNotification(message, type) {
         notificationArea.style.background = "#FFF3CD";
         notificationContent.style.color = "#856404"; 
 
-    } else if (type == INFO) {
-
-        notificationArea.style.border = "1px solid #B8DAFF";
-        notificationArea.style.background = "#CCE5FF";
-        notificationContent.style.color = "#004085";
-
     } else {
 
         throw new Error("Unknown notification type.");
