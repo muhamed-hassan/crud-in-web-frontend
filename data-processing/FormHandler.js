@@ -116,7 +116,7 @@ function removeBankAccount() {
 
 /* ****************************************************************************************************************** */
 
-function showBankAccountDetailsInPopupDialog(nationalId) {
+function displayBankAccountDetails(nationalId) {
 
     var userInfoReadModel = userResourceClient.getDetailedViewByNationalId(nationalId);
 

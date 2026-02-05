@@ -61,7 +61,7 @@ function fillPaginatedData(bankAccounts) {
 
     var tbodyContent = "";
     for (var cursor = 0; cursor < bankAccounts.length; cursor++) {
-        var row =   "<tr onclick=\"showBankAccountDetailsInPopupDialog(" + bankAccounts[cursor].nationalId + ")\">" +
+        var row =   "<tr onclick=\"displayBankAccountDetails(" + bankAccounts[cursor].nationalId + ")\">" +
                         "<td> " + bankAccounts[cursor].name + " </td>" +
                         "<td> " + bankAccounts[cursor].nationalId + " </td>" +
                         "<td> " + bankAccounts[cursor].iban + " </td>" +
