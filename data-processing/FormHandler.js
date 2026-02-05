@@ -122,10 +122,10 @@ function displayBankAccountDetails(nationalId) {
 
     var bankAccountDetailsElement = document.getElementById("bank-account-details");
     bankAccountDetailsElement.innerHTML = userInfoReadModel.name + " with national id of " + userInfoReadModel.nationalId + 
-                                            " is born at " + userInfoReadModel.dateOfBirth + " <br /> " +
+                                            " is born at " + userInfoReadModel.dateOfBirth + 
                                             " and live in " + userInfoReadModel.mailingAddress + 
                                             " besides can be contacted via this email " + userInfoReadModel.email + 
-                                            " or via this cell phone " + userInfoReadModel.cellPhone + ". <br /> " +
+                                            " or via this cell phone " + userInfoReadModel.cellPhone + ". " +
                                             "Has a bank account with IBAN of " + userInfoReadModel.iban + 
                                             " with balance of " + userInfoReadModel.balance + " GBP.";
 }
