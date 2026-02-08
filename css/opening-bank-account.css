@@ -1,22 +1,19 @@
 .opening-bank-account-view {    
-    height: 180px;
-    width: auto;
+    height: 300px;
+    width: 1420px;
+    padding: 10px;
 }
 
 /* *********************************************************************************** */
 
 .opening-bank-account-view button {    
-    top: 130px;
+    top: 250px;
 }
 
 .opening-bank-account-view #save-btn {
-    left: 65px;    
-    background: #218838; 
-    border: 2px solid #218838;   
+    left: 65px;      
 }
 
 .opening-bank-account-view #reset-btn {
-    left: 570px;
-    background: #C82333;
-    border: 2px solid #C82333;
+    left: 1075px;
 }

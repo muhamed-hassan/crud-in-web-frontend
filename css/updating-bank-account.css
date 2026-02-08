@@ -1,22 +1,19 @@
 .updating-bank-account-view {
-    height: 155px;
-    width: auto;
+    height: 230px;
+    width: 1420px;
+    padding: 10px;
 }
 
 /* *********************************************************************************** */
 
 .updating-bank-account-view button {    
-    top: 100px;
+    top: 180px;
 }
 
 .updating-bank-account-view #update-btn {  
     left: 65px;  
-    background: #218838;
-    border: 2px solid #218838;    
 }
 
 .updating-bank-account-view #reset-btn {    
-    left: 540px;
-    background: #C82333;   
-    border: 2px solid #C82333; 
+    left: 1075px;
 }

@@ -1,7 +1,7 @@
 function openSubmenu(element) {
 
     
-    /*document.getElementById("dropdown-menu")*/element.nextElementSibling.style.display = "block";
+    element.nextElementSibling.style.display = "block";
 }
 
 function closeSubmenu() {

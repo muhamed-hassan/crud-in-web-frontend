@@ -17,8 +17,8 @@ class ViewingBankAccountsUsingPagination {
                         "</tbody>" +
                     "</table>" +
                     "<div id=\"pagination-controls\">" +
-                        "<button id=\"previous-btn\" onclick=\"previous()\">Previous</button>" + 
-                        "<button id=\"next-btn\" onclick=\"next()\">Next</button>" +
+                        "<button id=\"previous-btn\" class=\"btn blue-btn\" onclick=\"previous()\">Previous</button>" + 
+                        "<button id=\"next-btn\" class=\"btn blue-btn\" onclick=\"next()\">Next</button>" +
                     "</div>" +                    
                 "</div>" +
                 "<p id=\"bank-account-details\"></p>";

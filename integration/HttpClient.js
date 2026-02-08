@@ -12,6 +12,8 @@ class HttpClient {
                 return xhttp.response;
             case 404:
                 throw new Error(JSON.parse(xhttp.response).error);
+            case 400:
+                throw new Error(xhttp.response);
             default:
                 throw new Error("Error of " + xhttp.statusText);
         }
@@ -28,7 +30,7 @@ class HttpClient {
             case 201:
                 break;
             case 400:
-                throw new Error(JSON.parse(xhttp.response).error);
+                throw new Error(xhttp.response);
             default:
                 throw new Error("Error of " + xhttp.statusText);
         }
@@ -61,7 +63,7 @@ class HttpClient {
             case 204:
                 break;
             case 400:
-                throw new Error(JSON.parse(xhttp.response).error);
+                throw new Error(xhttp.response);
             default:
                 throw new Error("Error of " + xhttp.statusText);
         }

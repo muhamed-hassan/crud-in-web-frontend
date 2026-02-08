@@ -4,7 +4,7 @@ class DetailedUserInfoReadModel extends UserInfoModel {
     id;
     name;
     nationalId;
-    dateOfBirth; // dd-MM-yyyy   
+    dateOfBirth; // yyyy-MM-dd   
     iban;
     balance;
 

@@ -38,9 +38,7 @@
 
 /* *********************************************************************************** */
 
-#pagination-controls button {
-    background: #0069D9;  
-    border: 2px solid #0069D9;   
+#pagination-controls button { 
     top: 395px;
 }
 

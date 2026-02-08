@@ -21,7 +21,7 @@ function showNotification(message, type) {
     }
 
     notificationArea.style.visibility = "visible";
-    notificationContent.innerHTML = message;
+    notificationContent.textContent = message;
 }
 
 function clearNotificationArea() {
@@ -33,6 +33,6 @@ function clearNotificationArea() {
     notificationArea.style.border = "";
     notificationArea.style.background = "";
 
-    notificationContent.innerHTML = "";
+    notificationContent.textContent = "";
     notificationContent.style.color = "";
 }

@@ -3,8 +3,8 @@ function saveBankAccount() {
     try {
 
         var userInfoCreateModel = new UserInfoCreateModel();
-        userInfoCreateModel.name = document.getElementById("name").value;;
-        userInfoCreateModel.dateOfBirth = document.getElementById("dob").value;;
+        userInfoCreateModel.name = document.getElementById("name").value;
+        userInfoCreateModel.dateOfBirth = document.getElementById("dob").value;
         userInfoCreateModel.nationalId = document.getElementById("national-id").value;
         userInfoCreateModel.cellPhone = document.getElementById("cell-phone").value;
         userInfoCreateModel.email = document.getElementById("email").value;
@@ -19,8 +19,10 @@ function saveBankAccount() {
         // Dim all fields and buttons
         dimForm("opening-bank-account-form");
 
+        resetErrorAreas("opening-bank-account-form");
+
     } catch (error) {
-        showNotification(error.message, WARNING);
+        handleFormErrorsOfOpeningBankAccount(error);
     }
 
 }
@@ -32,9 +34,11 @@ function search() {
     clearNotificationArea();
 
     var nationalId = document.getElementById("national-id").value;
+    if (nationalId.trim() == 0) {
+        nationalId = 0;
+    }
 
-    var targetPage = sessionStorage.getItem("targetPage");
-    sessionStorage.removeItem("targetPage");
+    var targetPage = sessionStorage.getItem("targetPage");    
 
     try {        
 
@@ -61,8 +65,10 @@ function search() {
                 throw new Error("Unknown targetPage !!!");
         }
 
+        sessionStorage.removeItem("targetPage");        
+
     } catch (error) {
-        showNotification(error.message, WARNING);
+        handleFormErrorsOfSearchingInBankAccounts(error);
     }
 
 }
@@ -89,8 +95,10 @@ function updateBankAccount() {
 
         sessionStorage.removeItem("id");
 
+        resetErrorAreas("updating-bank-account-form");
+
     } catch (error) {
-        showNotification(error.message, WARNING);
+        handleFormErrorsOfUpdatingBankAccount(error);
     }
 
 }
@@ -121,7 +129,7 @@ function displayBankAccountDetails(nationalId) {
     var userInfoReadModel = userResourceClient.getDetailedViewByNationalId(nationalId);
 
     var bankAccountDetailsElement = document.getElementById("bank-account-details");
-    bankAccountDetailsElement.innerHTML = userInfoReadModel.name + " with national id of " + userInfoReadModel.nationalId + 
+    bankAccountDetailsElement.textContent = userInfoReadModel.name + " with national id of " + userInfoReadModel.nationalId + 
                                             " is born at " + userInfoReadModel.dateOfBirth + 
                                             " and live in " + userInfoReadModel.mailingAddress + 
                                             " besides can be contacted via this email " + userInfoReadModel.email + 

@@ -21,6 +21,126 @@ function resetForm() {
     }
 }
 
+function resetErrorAreas(formId) {
+
+    var inputElements = document.querySelectorAll("#" + formId + " input");
+    for (var cursor = 0; cursor < inputElements.length; cursor++) {        
+        inputElements[cursor].style.borderColor = "#CCCCCC";
+    }
+
+    var errorMsgs = document.querySelectorAll("#" + formId + " [id$=\"ErrorMessage\"]");
+    for (var cursor = 0; cursor < errorMsgs.length; cursor++) {        
+        errorMsgs[cursor].textContent = "";
+    }
+}
+
+/* ****************************************************************************************************************** */
+
+function handleFormErrorsOfOpeningBankAccount(error) {
+
+    var errorInformation = JSON.parse(error.message).error;
+
+    if (errorInformation.hasOwnProperty("name")) {
+        document.getElementById("name").style.borderColor = "#FF0000";
+        document.getElementById("name_ErrorMessage").textContent = errorInformation.name;
+    } else {
+        document.getElementById("name").style.borderColor = "#CCCCCC";
+        document.getElementById("name_ErrorMessage").textContent = "";
+    }
+
+    if (errorInformation.hasOwnProperty("nationalId")) {
+        document.getElementById("national-id").style.borderColor = "#FF0000";
+        document.getElementById("national-id_ErrorMessage").textContent = errorInformation.nationalId;
+    } else {
+        document.getElementById("national-id").style.borderColor = "#CCCCCC";
+        document.getElementById("national-id_ErrorMessage").textContent = "";
+    }
+
+    if (errorInformation.hasOwnProperty("dob")) {
+        document.getElementById("dob").style.borderColor = "#FF0000";
+        document.getElementById("dob_ErrorMessage").textContent = errorInformation.dob;
+    } else {
+        document.getElementById("dob").style.borderColor = "#CCCCCC";
+        document.getElementById("dob_ErrorMessage").textContent = "";
+    }
+
+    if (errorInformation.hasOwnProperty("cellPhone")) {
+        document.getElementById("cell-phone").style.borderColor = "#FF0000";
+        document.getElementById("cell-phone_ErrorMessage").textContent = errorInformation.cellPhone;
+    } else {
+        document.getElementById("cell-phone").style.borderColor = "#CCCCCC";
+        document.getElementById("cell-phone_ErrorMessage").textContent = "";
+    }
+
+    if (errorInformation.hasOwnProperty("email")) {
+        document.getElementById("email").style.borderColor = "#FF0000";
+        document.getElementById("email_ErrorMessage").textContent = errorInformation.email;
+    } else {
+        document.getElementById("email").style.borderColor = "#CCCCCC";
+        document.getElementById("email_ErrorMessage").textContent = "";
+    }
+
+    if (errorInformation.hasOwnProperty("mailingAddress")) {
+        document.getElementById("mailing-address").style.borderColor = "#FF0000";
+        document.getElementById("mailing-address_ErrorMessage").textContent = errorInformation.mailingAddress;
+    } else {
+        document.getElementById("mailing-address").style.borderColor = "#CCCCCC";
+        document.getElementById("mailing-address_ErrorMessage").textContent = "";
+    }
+}
+
+function handleFormErrorsOfSearchingInBankAccounts(error) {
+
+    if (error.message.includes("Data not found")) {
+            
+        resetErrorAreas("searching-in-bank-accounts-form");
+        showNotification(error.message, WARNING);
+
+    } else {
+
+        var errorInformation = JSON.parse(error.message).error;
+
+        if (errorInformation.hasOwnProperty("nationalId")) {
+            document.getElementById("national-id").style.borderColor = "#FF0000";
+            document.getElementById("national-id_ErrorMessage").textContent = errorInformation.nationalId;
+        } else {
+            document.getElementById("national-id").style.borderColor = "#CCCCCC";
+            document.getElementById("national-id_ErrorMessage").textContent = "";
+        }
+
+    }
+}
+
+function handleFormErrorsOfUpdatingBankAccount(error) {
+    
+    var errorInformation = JSON.parse(error.message).error;
+
+    if (errorInformation.hasOwnProperty("cellPhone")) {
+        document.getElementById("cell-phone").style.borderColor = "#FF0000";
+        document.getElementById("cell-phone_ErrorMessage").textContent = errorInformation.cellPhone;
+    } else {
+        document.getElementById("cell-phone").style.borderColor = "#CCCCCC";
+        document.getElementById("cell-phone_ErrorMessage").textContent = "";
+    }
+
+    if (errorInformation.hasOwnProperty("email")) {
+        document.getElementById("email").style.borderColor = "#FF0000";
+        document.getElementById("email_ErrorMessage").textContent = errorInformation.email;
+    } else {
+        document.getElementById("email").style.borderColor = "#CCCCCC";
+        document.getElementById("email_ErrorMessage").textContent = "";
+    }
+
+    if (errorInformation.hasOwnProperty("mailingAddress")) {
+        document.getElementById("mailing-address").style.borderColor = "#FF0000";
+        document.getElementById("mailing-address_ErrorMessage").textContent = errorInformation.mailingAddress;
+    } else {
+        document.getElementById("mailing-address").style.borderColor = "#CCCCCC";
+        document.getElementById("mailing-address_ErrorMessage").textContent = "";
+    }
+}
+
+
 /* ****************************************************************************************************************** */
 
 function disableButton(buttonId) {
@@ -58,7 +178,8 @@ function createPopupDialog() {
 
     var popupDialogAction = document.createElement("button");    
     popupDialogAction.setAttribute("id", "popup-dialog-action");
-    popupDialogAction.innerHTML = "Ok";
+    popupDialogAction.classList.add("btn", "blue-btn");
+    popupDialogAction.textContent = "Ok";
 
     popupDialogContent.appendChild(popupDialogBody);
     popupDialogContent.appendChild(popupDialogAction);
@@ -71,7 +192,7 @@ function createPopupDialog() {
 function showPopupDialog(body, action) {
     
     var popupDialogBody = document.getElementById("popup-dialog-body");
-    popupDialogBody.innerHTML = body;
+    popupDialogBody.textContent = body;
 
     var popupDialogAction = document.getElementById("popup-dialog-action");
     popupDialogAction.setAttribute("onclick", action);
@@ -86,7 +207,7 @@ function dismissPopupDialog() {
     popupDialog.style.display = "none";
 
     var popupDialogBody = document.getElementById("popup-dialog-body");
-    popupDialogBody.innerHTML = "";
+    popupDialogBody.textContent = "";
 
     var popupDialogAction = document.getElementById("popup-dialog-action");
     popupDialogAction.removeAttribute("onclick");

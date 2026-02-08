@@ -1,4 +1,18 @@
-button {
+.tabular-layout {    
+    border: 2px solid #343A40;
+    border-radius: 5px;
+}
+
+.td-label {
+    font-size: 16px;
+    color: #343A40;
+    width: 130px;
+    padding: 0px;
+}
+
+/* *********************************************************************************** */
+
+.btn {
     position: absolute;
     padding: 10px 20px;
     width: 275px;
@@ -8,21 +22,41 @@ button {
     font-weight: bold;
 }
 
+.green-btn {
+    background: #28A745;
+    border: 2px solid #28A745;  
+}
+
+.blue-btn {
+    background: #0069D9; 
+    border: 2px solid #0069D9;  
+}
+
+.red-btn {
+    background: #FF0000;   
+    border: 2px solid #FF0000; 
+}
+
 /* *********************************************************************************** */
 
 input {
     height: 25px;
-    width: 300px;
+    width: 550px;
     border-radius: 4px; 
     border: 1px solid #CCCCCC;
 }
 
 /* *********************************************************************************** */
 
-.tabular-layout {
-    font-size: 16px;
-    color: #343A40;
-    border: 2px solid #343A40;
-    border-radius: 5px;
-    padding: 5px;
+.error-row {
+    color: #FF0000;
+    font-size: 12px;
+}
+
+.field-separator {
+    width: 75px;
+}
+
+.form-btns {
+    height: 75px;
 }
